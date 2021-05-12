@@ -101,7 +101,7 @@ following pin wiring:
 ```
 
 Starting OpenOCD from the console using the provided configuration file
-([`openocd\riscv_debug_ftdi.cfg`](https://github.com/stnolting/riscv-debug-dtm/blob/main/openocd\riscv_debug_ftdi.cfg)):
+([`openocd\riscv_debug_ftdi.cfg`](https://github.com/stnolting/riscv-debug-dtm/blob/main/openocd/riscv_debug_ftdi.cfg)):
 
 ```
   N:\Projects\riscv-debug-dtm>openocd -f openocd\riscv_debug_ftdi.cfg
