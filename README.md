@@ -1,13 +1,13 @@
 # RISC-V Debug Transport Module (DTM)
 
-**:construction: WORK-IN-PROGRESS :construction:**
-
 This project implements a JTAG-base *debug transport module* (DTM) for the RISC-V on-chip debugger that can connect to a *RISC-V debug module* (DM)
 via the *debug module interface* (DMI).
 The DTM is compatible to the official [RISC-V debug specification](https://github.com/riscv/riscv-debug-spec) (version 0.13)
 and can be used with the [RISC-V port of OpenOCD](https://github.com/riscv/riscv-openocd). Prebuilt binaries of the OpenOCD port
-can be obtained from [SiFive](https://www.sifive.com/software). The DTM is written in plain VHDL and does not require any further modules
-or special libraries. The DTM is not limited to the RISC-V debug specification. You can also use it as general purpose *JTAG-to-register-interface* interface
+can be obtained from [SiFive](https://www.sifive.com/software).
+
+The DTM is written in plain VHDL and does not require any further modules or special libraries.
+It is not limited to the RISC-V debug specification. You can also use it as general purpose *JTAG-to-register-interface* interface
 to control fancy LEDs or to interact with your FPGA project.
 
 
@@ -121,7 +121,7 @@ Starting OpenOCD from the console using the provided configuration file
 ```
 
 :information_source: The default IDCODE does not belong to any *valid* manufacturer / part number. The error shown by OpenOCD appears because OpenOCD tries
-to fetch information from the RISC-V deug module (`dmstatus`). But since I am using a simple memory instead, there is no valid information to fetch. :wink:
+to fetch information from the RISC-V deug module (`dmstatus`). But since I am using a simple memory instead, there is no useful information to fetch. :wink:
 
 Connect to OpenOCD via `telnet`:
 
