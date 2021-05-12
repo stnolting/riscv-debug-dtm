@@ -10,6 +10,8 @@ The DTM is written in plain VHDL and does not require any further modules or spe
 It is not limited to the RISC-V debug specification. You can also use it as general purpose *JTAG-to-register-interface* interface
 to control fancy LEDs or to interact with your FPGA project.
 
+Someday, this DTM might be included into the [NEORV32 RISC-V Processor](https://github.com/stnolting/neorv32) to provide on-chip debugger support.
+
 
 ## Hardware Overview
 
@@ -57,12 +59,12 @@ reduces the maximal JTAG clock frequency as the JTAG clock (`jtag_tck_i`) has to
 JTAG access is conducted via the *instruction register* `IR`, which is 5 bit wide, and several *data registers* `DR` with different sizes. The data registers are accessed
 by writing the according address to the instruction register. The following table shows the available data registers:
 
-| Address (`IR`) | Name   | Size   | Description |
-|:---------------|:-------|:-------|:------------|
-| `00001`        | IDCODE | 32 bit | identifier, configurable via the module's generics |
-| `10000`        | DTMCS  | 32 bit | *debug transport module control and status register* |
-| `10001`        | DMI    | 41 bit | *debug module interface*; 7-bit address, 32-bit read/write data, 2-bit operation |
-| others         | BYPASS | 1 bit  | default JTAG bypass register |
+| `DR` (address via `IR`) | Name   | Size   | Description |
+|:------------------------|:-------|:-------|:------------|
+| `00001`                 | IDCODE | 32 bit | identifier, configurable via the module's generics |
+| `10000`                 | DTMCS  | 32 bit | *debug transport module control and status register* |
+| `10001`                 | DMI    | 41 bit | *debug module interface*; 7-bit address, 32-bit read/write data, 2-bit operation |
+| others                  | BYPASS | 1 bit  | default JTAG bypass register |
 
 :information_source: See the [RISC-V debug specification](https://github.com/riscv/riscv-debug-spec) for more information regarding the data registers and operations.
 
