@@ -59,12 +59,12 @@ reduces the maximal JTAG clock frequency as the JTAG clock (`jtag_tck_i`) has to
 JTAG access is conducted via the *instruction register* `IR`, which is 5 bit wide, and several *data registers* `DR` with different sizes. The data registers are accessed
 by writing the according address to the instruction register. The following table shows the available data registers:
 
-| Data register (address via `IR`) | Name   | Size [bit] | Description |
-|:---------------------------------|:-------|:-----------|:------------|
-| `00001`                          | IDCODE | 32         | identifier, configurable via the module's generics |
-| `10000`                          | DTMCS  | 32         | *debug transport module control and status register* |
-| `10001`                          | DMI    | 41         | *debug module interface*; 7-bit address, 32-bit read/write data, 2-bit operation |
-| others                           | BYPASS | 1          | default JTAG bypass register |
+| Address (via `IR`) | Name     | Size [bit] | Description |
+|:-------------------|:---------|:-----------|:------------|
+| `00001`            | `IDCODE` | 32         | identifier, configurable via the module's generics |
+| `10000`            | `DTMCS`  | 32         | *debug transport module control and status register* |
+| `10001`            | `DMI`    | 41         | *debug module interface*; 7-bit address, 32-bit read/write data, 2-bit operation |
+| others             | `BYPASS` | 1          | default JTAG bypass register |
 
 :information_source: See the [RISC-V debug specification](https://github.com/riscv/riscv-debug-spec) for more information regarding the data registers and operations.
 
