@@ -4,7 +4,7 @@
 
 This project implements a JTAG-base *debug transport module* (DTM) for the RISC-V on-chip debugger that can connect to a *RISC-V debug module* (DM)
 via the *debug module interface* (DMI).
-The DTM is compatible to the official [RISC-V debug specification](https://github.com/riscv/riscv-debug-spec)
+The DTM is compatible to the official [RISC-V debug specification](https://github.com/riscv/riscv-debug-spec) (version 0.13)
 and can be used with the [RISC-V port of OpenOCD](https://github.com/riscv/riscv-openocd). Prebuilt binaries of the OpenOCD port
 can be obtained from [SiFive](https://www.sifive.com/software). The DTM is written in plain VHDL and does not require any further modules
 or special libraries. The DTM is not limited to the RISC-V debug specification. You can also use it as general purpose *JTAG-to-register-interface* interface
@@ -13,14 +13,14 @@ to control fancy LEDs or to interact with your FPGA project.
 
 ## Hardware Overview
 
-The module's rtl file is [`rtl/riscv_debug_dtm.vhd`]() and provides the following entity:
+The module's rtl file is [`rtl/riscv_debug_dtm.vhd`](https://github.com/stnolting/riscv-debug-dtm/blob/main/rtl/riscv_debug_dtm.vhd) and provides the following entity:
 
 ```vhdl
   entity riscv_debug_dtm is
     generic (
       IDCODE_VERSION : std_ulogic_vector(03 downto 0) := x"0"; -- version
       IDCODE_PARTID  : std_ulogic_vector(15 downto 0) := x"cafe"; -- part number
-      IDCODE_MANID   : std_ulogic_vector(10 downto 0) := "00000000000"; -- manufacturer id
+      IDCODE_MANID   : std_ulogic_vector(10 downto 0) := "00000000000" -- manufacturer id
     );
     port (
       -- global control --
@@ -100,10 +100,11 @@ following pin wiring:
   TRST: D4
 ```
 
-Starting OpenOCD from the console:
+Starting OpenOCD from the console using the provided configuration file
+([`openocd\riscv_debug_ftdi.cfg`](https://github.com/stnolting/riscv-debug-dtm/blob/main/openocd\riscv_debug_ftdi.cfg)):
 
 ```
-  N:\Projects\riscv-debug-dtm> openOCD -f openOCD\riscv_debug_ftdi.cfg
+  N:\Projects\riscv-debug-dtm>openocd -f openocd\riscv_debug_ftdi.cfg
   Open On-Chip Debugger 0.11.0-rc1+dev (SiFive OpenOCD 0.10.0-2020.12.1)
   Licensed under GNU GPL v2
   For bug reports:
@@ -120,7 +121,7 @@ Starting OpenOCD from the console:
 ```
 
 :information_source: The default IDCODE does not belong to any *valid* manufacturer / part number. The error shown by OpenOCD appears because OpenOCD tries
-to fetch information from the RISC-V deug module. But since I am using a simple memory instead, there is no valid information to fetch. :wink:
+to fetch information from the RISC-V deug module (`dmstatus`). But since I am using a simple memory instead, there is no valid information to fetch. :wink:
 
 Connect to OpenOCD via `telnet`:
 
