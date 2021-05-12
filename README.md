@@ -59,12 +59,12 @@ reduces the maximal JTAG clock frequency as the JTAG clock (`jtag_tck_i`) has to
 JTAG access is conducted via the *instruction register* `IR`, which is 5 bit wide, and several *data registers* `DR` with different sizes. The data registers are accessed
 by writing the according address to the instruction register. The following table shows the available data registers:
 
-| `DR` (address via `IR`) | Name   | Size   | Description |
-|:------------------------|:-------|:-------|:------------|
-| `00001`                 | IDCODE | 32 bit | identifier, configurable via the module's generics |
-| `10000`                 | DTMCS  | 32 bit | *debug transport module control and status register* |
-| `10001`                 | DMI    | 41 bit | *debug module interface*; 7-bit address, 32-bit read/write data, 2-bit operation |
-| others                  | BYPASS | 1 bit  | default JTAG bypass register |
+| Data register (address via `IR`) | Name   | Size [bit] | Description |
+|:---------------------------------|:-------|:-----------|:------------|
+| `00001`                          | IDCODE | 32         | identifier, configurable via the module's generics |
+| `10000`                          | DTMCS  | 32         | *debug transport module control and status register* |
+| `10001`                          | DMI    | 41         | *debug module interface*; 7-bit address, 32-bit read/write data, 2-bit operation |
+| others                           | BYPASS | 1          | default JTAG bypass register |
 
 :information_source: See the [RISC-V debug specification](https://github.com/riscv/riscv-debug-spec) for more information regarding the data registers and operations.
 
@@ -74,18 +74,18 @@ by writing the according address to the instruction register. The following tabl
 The *debug module interface* (DMI) is a simple register interface. The interface uses the system clock `clk_i` and is controlled via the `DMI` register.
 The table below shows the signals and tries to illustrate the protocol ("Direction" is seen from the DTM):
 
-| Signal              | Direction | Size | Description |
-|:--------------------|:----------|:-----|:------------|
-| `dmi_rstn_o`        | out       | 1    | reset DMI (low-active), set/cleared via bit in `DTMCS` |
-| `dmi_req_valid_o`   | out       | 1    | valid new request, high-active, active for one cycle |
-| `dmi_req_ready_i`   | in        | 1    | DTM is allowed to make new request when high |
-| `dmi_req_addr_o`    | out       | 7    | address of DM register for the current access |
-| `dmi_req_op_o`      | out       | 1    | actual operation; `1` = write, `0` = read |
-| `dmi_req_data_o`    | out       | 32   | data to write to DM register |
-| `dmi_resp_valid_i`  | in        | 1    | response is valid when high, active for one cycle |
-| `dmi_resp_ready_o`  | out       | 1    | DTM can accept repsonse from DM when high |
-| `dmi_resp_data_i`   | in        | 32   | data read from the DM register, applied with `dmi_resp_valid_i` |
-| `dmi_resp_err_i`    | in        | 1    | error during operation, applied with `dmi_resp_valid_i` |
+| Signal              | Direction | Size [bit] | Description |
+|:--------------------|:----------|:-----------|:------------|
+| `dmi_rstn_o`        | out       | 1          | reset DMI (low-active), set/cleared via bit in `DTMCS` |
+| `dmi_req_valid_o`   | out       | 1          | valid new request, high-active, active for one cycle |
+| `dmi_req_ready_i`   | in        | 1          | DTM is allowed to make new request when high |
+| `dmi_req_addr_o`    | out       | 7          | address of DM register for the current access |
+| `dmi_req_op_o`      | out       | 1          | actual operation; `1` = write, `0` = read |
+| `dmi_req_data_o`    | out       | 32         | data to write to DM register |
+| `dmi_resp_valid_i`  | in        | 1          | response is valid when high, active for one cycle |
+| `dmi_resp_ready_o`  | out       | 1          | DTM can accept repsonse from DM when high |
+| `dmi_resp_data_i`   | in        | 32         | data read from the DM register, applied with `dmi_resp_valid_i` |
+| `dmi_resp_err_i`    | in        | 1          | error during operation, applied with `dmi_resp_valid_i` |
 
 
 ## Usage Example
