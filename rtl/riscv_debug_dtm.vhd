@@ -1,6 +1,8 @@
 -- #################################################################################################
 -- # RISC-V Debug Transport Module (DTM) - compatible to the RISC-V debug specification            #
 -- # ********************************************************************************************* #
+-- # Provides a JTAG-compatible TAP to access the DMI register interface.                          #
+-- # ********************************************************************************************* #
 -- # BSD 3-Clause License                                                                          #
 -- #                                                                                               #
 -- # Copyright (c) 2021, Stephan Nolting. All rights reserved.                                     #
@@ -29,7 +31,7 @@
 -- # NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED  #
 -- # OF THE POSSIBILITY OF SUCH DAMAGE.                                                            #
 -- # ********************************************************************************************* #
--- # The NEORV32 Processor - https://github.com/stnolting/riscv-debug-dtm      (c) Stephan Nolting #
+-- # https://github.com/stnolting/riscv-debug-dtm                              (c) Stephan Nolting #
 -- #################################################################################################
 
 library ieee;
@@ -106,7 +108,7 @@ architecture riscv_debug_dtm_rtl of riscv_debug_dtm is
     dmihardreset : std_ulogic;
     dmireset     : std_ulogic;
     --
-    error        : std_ulogic; -- sticky error
+    err          : std_ulogic; -- sticky error
     rdata        : std_ulogic_vector(31 downto 0);
     wdata        : std_ulogic_vector(31 downto 0);
     addr         : std_ulogic_vector(06 downto 0);
@@ -237,7 +239,7 @@ begin
       dmi_ctrl.state        <= DMI_IDLE;
       dmi_ctrl.dmihardreset <= '1';
       dmi_ctrl.dmireset     <= '1';
-      dmi_ctrl.error        <= '0';
+      dmi_ctrl.err          <= '0';
       dmi_ctrl.rdata        <= (others => '-');
       dmi_ctrl.wdata        <= (others => '-');
       dmi_ctrl.addr         <= (others => '-');
@@ -254,7 +256,7 @@ begin
       -- DMI interface arbiter --
       if (dmi_ctrl.dmihardreset = '1') then -- DMI hard reset
         dmi_ctrl.state <= DMI_IDLE;
-        dmi_ctrl.error <= '0';
+        dmi_ctrl.err   <= '0';
       else
         case dmi_ctrl.state is
 
@@ -280,7 +282,7 @@ begin
           when DMI_READ_BUSY => -- pending read access
             if (dmi_resp_valid_i = '1') then
               dmi_ctrl.rdata <= dmi_resp_data_i;
-              dmi_ctrl.error <= dmi_ctrl.error or dmi_resp_err_i; -- sticky error
+              dmi_ctrl.err   <= dmi_ctrl.err or dmi_resp_err_i; -- sticky error
               dmi_ctrl.state <= DMI_IDLE;
             end if;
 
@@ -294,7 +296,7 @@ begin
 
           when DMI_WRITE_BUSY => -- pending write access
             if (dmi_resp_valid_i = '1') then
-              dmi_ctrl.error <= dmi_ctrl.error or dmi_resp_err_i; -- sticky error
+              dmi_ctrl.err   <= dmi_ctrl.err or dmi_resp_err_i; -- sticky error
               dmi_ctrl.state <= DMI_IDLE;
             end if;
 
@@ -304,7 +306,7 @@ begin
         end case;
         -- override sticky error flag --
         if (dmi_ctrl.dmireset = '1') then
-          dmi_ctrl.error <= '0';
+          dmi_ctrl.err <= '0';
         end if;
       end if;
     end if;
@@ -313,7 +315,7 @@ begin
   -- DMI register read access --
   tap_reg.dmi_nxt(40 downto 34) <= dmi_ctrl.addr; -- address
   tap_reg.dmi_nxt(33 downto 02) <= dmi_ctrl.rdata; -- read data
-  tap_reg.dmi_nxt(01 downto 00) <= "11" when (dmi_ctrl.state /= DMI_IDLE) else (dmi_ctrl.error & '0'); -- status
+  tap_reg.dmi_nxt(01 downto 00) <= "11" when (dmi_ctrl.state /= DMI_IDLE) else (dmi_ctrl.err & '0'); -- status
 
   -- direct DMI output --
   dmi_rstn_o       <= '0' when (dmi_ctrl.dmihardreset = '1') else '1';
