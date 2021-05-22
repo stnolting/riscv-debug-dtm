@@ -10,7 +10,7 @@ The DTM is written in plain VHDL and does not require any further modules or spe
 It is not limited to the RISC-V debug specification. You can also use it as general purpose *JTAG-to-register-interface* interface
 to control fancy LEDs or to interact with your FPGA project.
 
-Someday, this DTM might be included into the [NEORV32 RISC-V Processor](https://github.com/stnolting/neorv32) to provide on-chip debugger support.
+:information_source: This DTM is used as a part of the [NEORV32 RISC-V Processor](https://github.com/stnolting/neorv32) on-chip debugger.
 
 
 ## Hardware Overview
