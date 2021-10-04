@@ -3,8 +3,9 @@
 This project implements a JTAG-base *debug transport module* (DTM) for the RISC-V on-chip debugger that can connect to a *RISC-V debug module* (DM)
 via the *debug module interface* (DMI).
 The DTM is compatible to the official [RISC-V debug specification](https://github.com/riscv/riscv-debug-spec) (version 0.13)
-and can be used with the [RISC-V port of OpenOCD](https://github.com/riscv/riscv-openocd). Prebuilt binaries of the OpenOCD port
-can be obtained from [SiFive](https://www.sifive.com/software).
+and can be used with the [RISC-V port of OpenOCD](https://github.com/riscv/riscv-openocd). Prebuilt RISC-V binaries of the OpenOCD port
+can be obtained from [SiFive](https://www.sifive.com/software). However, the upstream openOCD version also provides built-in
+RISC-V support.
 
 The DTM is written in plain VHDL and does not require any further modules or special libraries.
 It is not limited to the RISC-V debug specification. You can also use it as general purpose *JTAG-to-register-interface* interface
