@@ -12,6 +12,7 @@ It is not limited to the RISC-V debug specification. You can also use it as gene
 to control fancy LEDs or to interact with your FPGA project.
 
 :information_source: This DTM is used as a part of the [NEORV32 RISC-V Processor](https://github.com/stnolting/neorv32) on-chip debugger.
+More information regarding the DTM can be found in the ["NEORV32 Data Sheet - On-Chip Debugger (OCD)"](https://stnolting.github.io/neorv32/#_on_chip_debugger_ocd).
 
 
 ## Hardware Overview
