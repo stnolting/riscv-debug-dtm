@@ -1,5 +1,7 @@
 # RISC-V Debug Transport Module (DTM)
 
+[![License](https://img.shields.io/github/license/stnolting/riscv-debug-dtm)](https://github.com/stnolting/riscv-debug-dtm/blob/main/LICENSE)
+
 This project implements a JTAG-base *debug transport module* (DTM) for the RISC-V on-chip debugger that can connect to a *RISC-V debug module* (DM)
 via the *debug module interface* (DMI).
 The DTM is compatible to the official [RISC-V debug specification](https://github.com/riscv/riscv-debug-spec) (version 0.13)
@@ -7,12 +9,13 @@ and can be used with the [RISC-V port of OpenOCD](https://github.com/riscv/riscv
 can be obtained from [SiFive](https://www.sifive.com/software). However, the upstream openOCD version also provides built-in
 RISC-V support.
 
-The DTM is written in plain VHDL and does not require any further modules or special libraries.
+The DTM is written in plain synthesizable VHDL and does not require any further modules or special libraries.
 It is not limited to the RISC-V debug specification. You can also use it as general purpose *JTAG-to-register-interface* interface
-to control fancy LEDs or to interact with your FPGA project.
+to control fancy LEDs or to interact with your non-RISC-V FPGA logic.
 
-:information_source: This DTM is used as a part of the [NEORV32 RISC-V Processor](https://github.com/stnolting/neorv32) on-chip debugger.
-More information regarding the DTM can be found in the ["NEORV32 Data Sheet - On-Chip Debugger (OCD)"](https://stnolting.github.io/neorv32/#_on_chip_debugger_ocd).
+:information_source: This project is a "spin-off" project of the [NEORV32 RISC-V Processor](https://github.com/stnolting/neorv32), where
+this DTM is used as a part of the on-chip debugger. More information regarding the DTM can be found in the
+["NEORV32 Data Sheet - On-Chip Debugger (OCD)"](https://stnolting.github.io/neorv32/#_on_chip_debugger_ocd).
 
 
 ## Hardware Overview
@@ -22,9 +25,9 @@ The module's rtl file is [`rtl/riscv_debug_dtm.vhd`](https://github.com/stnoltin
 ```vhdl
   entity riscv_debug_dtm is
     generic (
-      IDCODE_VERSION : std_ulogic_vector(03 downto 0) := x"0"; -- version
-      IDCODE_PARTID  : std_ulogic_vector(15 downto 0) := x"cafe"; -- part number
-      IDCODE_MANID   : std_ulogic_vector(10 downto 0) := "00000000000" -- manufacturer id
+      IDCODE_VERSION : std_ulogic_vector(03 downto 0); -- version
+      IDCODE_PARTID  : std_ulogic_vector(15 downto 0); -- part number
+      IDCODE_MANID   : std_ulogic_vector(10 downto 0)  -- manufacturer id
     );
     port (
       -- global control --
@@ -160,8 +163,7 @@ The following example shows a read from DMI register `0x00` (which is zero after
 
 FPGA: Intel Cyclone IV `EP4CE22F17C6N`
 
-Utilization: 256 logic cells, 218 registers, running at 100MHz. No contraints were used at all.
-
+Utilization: 256 logic cells, 218 registers, running at 100MHz. No constraints were used at all.
 
 
 ## Legal
