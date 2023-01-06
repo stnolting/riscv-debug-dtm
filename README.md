@@ -1,3 +1,5 @@
+**:warning: Please see the [NEORV32](https://github.com/stnolting/neorv32) DTM for a newer version of this debug transfer module.**
+
 # RISC-V Debug Transport Module (DTM)
 
 [![License](https://img.shields.io/github/license/stnolting/riscv-debug-dtm)](https://github.com/stnolting/riscv-debug-dtm/blob/main/LICENSE)
